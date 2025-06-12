@@ -2,57 +2,67 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "API Reference | Minimal Docs Site",
-  description: "Detailed API reference for our library",
+  description: "Comprehensive guide to the ShopX platform's API endpoints",
 }
 
-export default function ApiReference() {
+export default function APIReference() {
   return (
-    <main className="max-w-3xl mx-auto">
-      <h1 className="text-4xl font-bold mb-6">API Reference</h1>
-      <p className="text-xl mb-4">
-        This section provides a detailed reference for the API of our library. You&apos;ll find information about
-        available methods, their parameters, and return values.
+    <div className="max-w-3xl mx-auto">
+      <h1 className="text-4xl font-bold mb-6">🧾 API Reference</h1>
+      <p className="mb-4">
+        Below is a list of core API methods available in the ShopX platform. These APIs allow seamless data integration
+        across products, authentication, and checkout services.
       </p>
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Client</h2>
-      <p className="mb-4">The main class for interacting with our API.</p>
-      <h3 className="text-xl font-semibold mt-6 mb-2">Constructor</h3>
+
+      <h3 className="text-xl font-semibold mt-6 mb-2">GET /api/products</h3>
+      <p className="mb-2">Returns a list of all products from the CMS.</p>
       <pre className="bg-muted p-4 rounded-md mb-4">
-        <code>{`new Client(config: ClientConfig)`}</code>
+        <code>{`fetch('/api/products')
+  .then(res => res.json())
+  .then(data => console.log(data))`}</code>
       </pre>
-      <p className="mb-4">Creates a new instance of the Client class.</p>
-      <h4 className="text-lg font-semibold mt-4 mb-2">Parameters</h4>
-      <ul className="list-disc list-inside mb-4">
-        <li>
-          <code>config</code>: An object containing the client configuration
-        </li>
-      </ul>
-      <h3 className="text-xl font-semibold mt-6 mb-2">Methods</h3>
-      <h4 className="text-lg font-semibold mt-4 mb-2">doSomething()</h4>
+
+      <h3 className="text-xl font-semibold mt-6 mb-2">GET /api/user</h3>
+      <p className="mb-2">Retrieves data for the currently authenticated user.</p>
       <pre className="bg-muted p-4 rounded-md mb-4">
-        <code>{`async doSomething(): Promise<Result>`}</code>
+        <code>{`fetch('/api/user', {
+  headers: { Authorization: 'Bearer <token>' }
+})
+  .then(res => res.json())
+  .then(user => console.log(user))`}</code>
       </pre>
-      <p className="mb-4">Performs an action and returns a result.</p>
-      <h4 className="text-lg font-semibold mt-4 mb-2">Returns</h4>
-      <p className="mb-4">A Promise that resolves to a Result object.</p>
-      <h2 className="text-2xl font-semibold mt-8 mb-4">Types</h2>
-      <h3 className="text-xl font-semibold mt-6 mb-2">ClientConfig</h3>
+
+      <h3 className="text-xl font-semibold mt-6 mb-2">POST /api/cart</h3>
+      <p className="mb-2">Adds a product to the shopping cart.</p>
       <pre className="bg-muted p-4 rounded-md mb-4">
-        <code>{`interface ClientConfig {
-  apiKey: string;
-  environment: 'production' | 'development';
-}`}</code>
+        <code>{`fetch('/api/cart', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ productId: 'abc123', quantity: 1 })
+})`}</code>
       </pre>
-      <h3 className="text-xl font-semibold mt-6 mb-2">Result</h3>
+
+      <h3 className="text-xl font-semibold mt-6 mb-2">POST /api/checkout</h3>
+      <p className="mb-2">Creates a Stripe checkout session and redirects the user to payment.</p>
       <pre className="bg-muted p-4 rounded-md mb-4">
-        <code>{`interface Result {
-  id: string;
-  data: any;
-  timestamp: number;
-}`}</code>
+        <code>{`fetch('/api/checkout', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ cartItems })
+})`}</code>
       </pre>
-      <p className="mt-4">
-        For more detailed information about specific components and their props, please refer to the Components section.
+
+      <h3 className="text-xl font-semibold mt-6 mb-2">GET /api/orders</h3>
+      <p className="mb-2">Fetches the user's past orders.</p>
+      <pre className="bg-muted p-4 rounded-md mb-4">
+        <code>{`fetch('/api/orders')
+  .then(res => res.json())
+  .then(data => console.log(data))`}</code>
+      </pre>
+
+      <p className="mt-6">
+        For more details or custom integrations, refer to the backend service documentation or contact the development team.
       </p>
-    </main>
+    </div>
   )
 }
